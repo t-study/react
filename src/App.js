@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import Subject from './components/Subject'
 import TOC from './components/TOC'
-import Content from './components/Contents'
+import ReadContent from './components/ReadContent'
+import Control from './components/Control'
 
 import './App.css'
+import CreateContent from './components/CreateContent'
 
 class App extends Component {
   constructor(props) {
     super(props)
+    this.max_content_id = 3
     this.state = {
       mode: 'read',
       selected_content_id: 2,
@@ -22,10 +25,12 @@ class App extends Component {
   }
   render() {
     var _title,
-      _desc = null
+      _desc,
+      _article = null
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title
       _desc = this.state.welcome.desc
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
     } else if (this.state.mode === 'read') {
       for (var i = 0; i < this.state.contents.length; i++) {
         var data = this.state.contents[i]
@@ -35,6 +40,18 @@ class App extends Component {
           break
         }
       }
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+    } else if (this.state.mode === 'create') {
+      _article = (
+        <CreateContent
+          onSubmit={function (_title, _desc) {
+            this.max_content_id += 1
+            this.setState({
+              contents: this.state.contents.concat({ id: this.max_content_id, title: _title, desc: _desc }),
+            })
+          }.bind(this)}
+        ></CreateContent>
+      )
     }
     return (
       <div className="App">
@@ -54,7 +71,14 @@ class App extends Component {
             })
           }.bind(this)}
         ></TOC>
-        <Content title={_title} desc={_desc}></Content>
+        <Control
+          onChangeMode={function (_mode) {
+            this.setState({
+              mode: _mode,
+            })
+          }.bind(this)}
+        ></Control>
+        {_article}
       </div>
     )
   }
