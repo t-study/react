@@ -1,11 +1,11 @@
 import React from 'react'
 import AddNumber from './AddNumber'
 
-const AddNumberRoot = ({ handleClick }) => {
+const AddNumberRoot = () => {
   return (
     <div>
       <h2>Add Number Root</h2>
-      <AddNumber handleClick={(size) => handleClick(size)}></AddNumber>
+      <AddNumber></AddNumber>
     </div>
   )
 }

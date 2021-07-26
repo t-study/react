@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import store from '../store'
 
 const AddNumber = ({ handleClick }) => {
   const [size, setSize] = useState(0)
@@ -8,8 +9,8 @@ const AddNumber = ({ handleClick }) => {
       <input
         type='button'
         value='+'
-        onClick={(e) => {
-          handleClick(size)
+        onClick={() => {
+          store.dispatch({ type: 'INCREMENT', size })
         }}
       ></input>
       <input type='number' value={size} onChange={(e) => setSize(Number(e.target.value))}></input>
